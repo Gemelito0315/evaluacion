@@ -1,0 +1,148 @@
+/* ===================================== */
+/* ESTILOS AVANZADOS PARA LOGIN/REGISTRO (PANEL DE CITAS/MATCHING) */
+/* ===================================== */
+
+/* RESET Y FUENTE */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* Fuente moderna y amigable */
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 1. FONDO Y CENTRADO */
+.login-page {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Degradado de Púrpura/Rosa a Naranja Cítrico (Vibrante y Cálido) */
+    background: linear-gradient(135deg, #FF6B6B 0%, #FFCC5C 100%); 
+    /* Fondo más suave: background: linear-gradient(135deg, #FF7E5F 0%, #FEB47B 100%); */
+}
+
+/* 2. CONTENEDOR DEL FORMULARIO (Estilo "Card" de Cita) */
+.login-container {
+    /* Fondo que simula una tarjeta de perfil */
+    background-color: #FFFFFF; /* Blanco sólido para alto contraste */
+    padding: 50px; 
+    /* Bordes más suaves para un look amigable */
+    border-radius: 25px; 
+    /* Sombra con un toque de color para el "pop" */
+    box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4); 
+    width: 100%;
+    max-width: 400px; /* Un poco más ancho, como una "Tarjeta" de perfil */
+    text-align: center;
+    /* Eliminamos el blur ya que queremos una tarjeta más definida */
+}
+
+.login-title {
+    margin-bottom: 30px;
+    /* Color de énfasis cálido */
+    color: #FF6B6B; 
+    font-size: 2.2em;
+    /* Fuente más audaz y juguetona */
+    font-weight: 700; 
+    letter-spacing: 1px;
+}
+
+/* 3. CAMPOS DE ENTRADA */
+.input-group {
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500; 
+    /* Texto gris oscuro para fácil lectura */
+    color: #4A4A4A;
+    font-size: 0.95em;
+}
+
+/* Ajuste para que el icono esté junto al texto del label */
+.input-group label i {
+    margin-right: 8px; 
+    /* Iconos con el color de énfasis */
+    color: #FF6B6B; 
+}
+
+
+.input-group input {
+    width: 100%;
+    padding: 15px 20px;
+    /* Borde muy suave, casi invisible, enfocado en el interior */
+    border: 1px solid #EAEAEA; 
+    border-radius: 12px; /* Bordes más redondeados */
+    font-size: 1em;
+    background-color: #F9F9F9;
+    transition: all 0.3s;
+}
+
+.input-group input:focus {
+    /* Borde de color secundario vibrante al enfocar (Naranja Cítrico) */
+    border-color: #FFCC5C; 
+    background-color: white;
+    /* Sombra interior para un efecto de "profundidad" */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 0 3px rgba(255, 204, 92, 0.5); 
+    outline: none;
+}
+
+/* 4. BOTÓN DE ACCIÓN (¡El botón de "Match"!) */
+.btn-login {
+    width: 100%;
+    padding: 16px;
+    /* Color principal de la marca (Pasión/Amor) */
+    background: linear-gradient(45deg, #FF6B6B 0%, #FF4D4D 100%); 
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2em;
+    font-weight: 700;
+    cursor: pointer;
+    /* Animación más pronunciada */
+    transition: all 0.3s ease; 
+    margin-top: 25px;
+    /* Sombra fuerte para darle peso, como el botón de "Swipe" */
+    box-shadow: 0 8px 15px rgba(255, 77, 77, 0.4); 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-login:hover {
+    /* Cambiamos el gradiente al pasar el ratón */
+    background: linear-gradient(45deg, #FF4D4D 0%, #FF6B6B 100%); 
+    box-shadow: 0 10px 20px rgba(255, 77, 77, 0.6); 
+    /* Ligero levantamiento */
+    transform: translateY(-2px); 
+}
+
+.btn-login:active {
+    /* Presionar con más feedback visual */
+    transform: scale(0.98);
+    box-shadow: 0 3px 5px rgba(255, 77, 77, 0.2); 
+}
+
+/* 5. ENLACES ADICIONALES */
+.forgot-password, .register-link {
+    margin-top: 25px;
+    font-size: 0.9em;
+}
+
+.forgot-password a, .register-link a {
+    color: #4A4A4A;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.forgot-password a:hover, .register-link a:hover {
+    /* Color de énfasis para los enlaces (El rojo principal) */
+    color: #FF6B6B; 
+    text-decoration: underline;
+}
