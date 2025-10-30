@@ -23,16 +23,12 @@ public class Usuario {
     @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro;
     
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private Rol rol;
-    
-    // Constructores
+    // Constructor por defecto
     public Usuario() {
         this.fechaRegistro = LocalDateTime.now();
-        this.rol = Rol.USUARIO;
     }
     
+    // ✅ AGREGAR Constructor con parámetros
     public Usuario(String nombre, String email, String password) {
         this();
         this.nombre = nombre;
@@ -55,11 +51,4 @@ public class Usuario {
     
     public LocalDateTime getFechaRegistro() { return fechaRegistro; }
     public void setFechaRegistro(LocalDateTime fechaRegistro) { this.fechaRegistro = fechaRegistro; }
-    
-    public Rol getRol() { return rol; }
-    public void setRol(Rol rol) { this.rol = rol; }
-}
-
-enum Rol {
-    ADMINISTRADOR, SUPERVISOR, USUARIO
 }

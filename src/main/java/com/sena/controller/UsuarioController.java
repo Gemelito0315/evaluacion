@@ -12,10 +12,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/usuarios")
 public class UsuarioController {
-    
+
     @Autowired
     private UsuarioService usuarioService;
-    
+
     @GetMapping("/lista")
     public String listaUsuarios(Model model) {
         List<Usuario> usuarios = usuarioService.obtenerTodosUsuarios();

@@ -31,8 +31,20 @@ public class Cita {
     @JoinColumn(name = "profesional_id")
     private Profesional profesional;
 
+    // ✅ AGREGAR Constructor por defecto
+    public Cita() {
+        this.estado = "PENDIENTE"; // Valor por defecto
+    }
     
-    
+    // ✅ AGREGAR Constructor con parámetros
+    public Cita(LocalDateTime fechaHora, String estado, Usuario usuario, Servicio servicio, Profesional profesional) {
+        this();
+        this.fechaHora = fechaHora;
+        this.estado = estado;
+        this.usuario = usuario;
+        this.servicio = servicio;
+        this.profesional = profesional;
+    }
 
     // Getters y Setters
     public Long getId() { return id; }

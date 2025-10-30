@@ -13,37 +13,41 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
     
-    // Guardar usuario
+    // Método para el REGISTRO
     public Usuario guardarUsuario(Usuario usuario) {
         // Verificar si el email ya existe
-        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
+        if (existeEmail(usuario.getEmail())) {
             throw new RuntimeException("El email ya está registrado");
         }
         return usuarioRepository.save(usuario);
     }
     
-    // Obtener todos los usuarios
+    // Método para verificar si existe email
+    public boolean existeEmail(String email) {
+        return usuarioRepository.existsByEmail(email);
+    }
+    
+    // Método para el LOGIN
+    public Usuario validarCredenciales(String email, String password) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
+        
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            // Verificar contraseña
+            if (password.equals(usuario.getPassword())) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+    
+    // Método para listar usuarios
     public List<Usuario> obtenerTodosUsuarios() {
         return usuarioRepository.findAll();
     }
     
-    // Buscar usuario por ID
+    // Método para buscar por ID
     public Optional<Usuario> obtenerUsuarioPorId(Long id) {
         return usuarioRepository.findById(id);
-    }
-    
-    // Buscar usuario por email
-    public Optional<Usuario> obtenerUsuarioPorEmail(String email) {
-        return usuarioRepository.findByEmail(email);
-    }
-    
-    // Eliminar usuario
-    public void eliminarUsuario(Long id) {
-        usuarioRepository.deleteById(id);
-    }
-    
-    // Verificar si existe usuario por email
-    public boolean existeUsuarioConEmail(String email) {
-        return usuarioRepository.existsByEmail(email);
     }
 }

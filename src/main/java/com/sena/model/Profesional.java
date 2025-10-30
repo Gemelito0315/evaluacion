@@ -26,12 +26,19 @@ public class Profesional {
     // Un Profesional puede tener muchas Citas
     @OneToMany(mappedBy = "profesional", cascade = CascadeType.ALL)
     private List<Cita> citas = new ArrayList<>();
-    
-    // Un Profesional puede ofrecer muchos Servicios
-    @OneToMany(mappedBy = "profesional", cascade = CascadeType.ALL)
-    private List<Servicio> servicios = new ArrayList<>();
 
-   
+    // ✅ ELIMINAR esta relación - Servicio no tiene profesional_id
+    // @OneToMany(mappedBy = "profesional", cascade = CascadeType.ALL)
+    // private List<Servicio> servicios = new ArrayList<>();
+
+    // Constructores
+    public Profesional() {}
+    
+    public Profesional(String especialidad, LocalDateTime horarioDisponible, Usuario usuario) {
+        this.especialidad = especialidad;
+        this.horarioDisponible = horarioDisponible;
+        this.usuario = usuario;
+    }
 
     // Getters y Setters
     public Long getId() { return id; }
@@ -44,6 +51,8 @@ public class Profesional {
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
     public List<Cita> getCitas() { return citas; }
     public void setCitas(List<Cita> citas) { this.citas = citas; }
-    public List<Servicio> getServicios() { return servicios; }
-    public void setServicios(List<Servicio> servicios) { this.servicios = servicios; }
+    
+    // ✅ ELIMINAR getters y setters de servicios
+    // public List<Servicio> getServicios() { return servicios; }
+    // public void setServicios(List<Servicio> servicios) { this.servicios = servicios; }
 }

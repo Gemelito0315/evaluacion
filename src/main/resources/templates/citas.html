@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Citas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary-custom:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-calendar-check me-2"></i>Sistema de Citas
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" th:href="@{/logout}">
+                    <i class="fas fa-sign-out-alt me-1"></i>Cerrar Sesión
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mostrar mensajes -->
+    <div th:if="${mensaje}" class="container mt-3">
+        <div th:classappend="${tipoMensaje == 'success' ? 'alert alert-success' : 'alert alert-danger'}" 
+             class="alert alert-dismissible fade show" role="alert">
+            <i th:classappend="${tipoMensaje == 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-triangle'}" 
+               class="me-2"></i>
+            <span th:text="${mensaje}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-4">
+                    <i class="fas fa-calendar-alt me-2"></i>Gestión de Citas
+                </h1>
+            </div>
+        </div>
+
+        <!-- Tarjetas de Funcionalidades -->
+        <div class="row">
+            <!-- Gestión de Citas -->
+            <div class="col-md-3 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-plus-circle fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Nueva Cita</h5>
+                        <p class="card-text">Agendar nueva cita</p>
+                        <a th:href="@{/citas/nueva}" class="btn btn-primary-custom">Crear Cita</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-list fa-3x text-success mb-3"></i>
+                        <h5 class="card-title">Ver Citas</h5>
+                        <p class="card-text">Listar todas las citas</p>
+                        <a th:href="@{/citas/lista}" class="btn btn-primary-custom">Listar Citas</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gestión de Servicios -->
+            <div class="col-md-3 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-concierge-bell fa-3x text-warning mb-3"></i>
+                        <h5 class="card-title">Servicios</h5>
+                        <p class="card-text">Gestionar servicios</p>
+                        <a th:href="@{/servicios/lista}" class="btn btn-primary-custom">Ver Servicios</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gestión de Profesionales -->
+            <div class="col-md-3 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-user-md fa-3x text-info mb-3"></i>
+                        <h5 class="card-title">Profesionales</h5>
+                        <p class="card-text">Gestionar profesionales</p>
+                        <a th:href="@{/profesionales/lista}" class="btn btn-primary-custom">Ver Profesionales</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Segunda fila de opciones -->
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-plus-square fa-3x text-secondary mb-3"></i>
+                        <h5 class="card-title">Nuevo Servicio</h5>
+                        <p class="card-text">Agregar nuevo servicio</p>
+                        <a th:href="@{/servicios/nuevo}" class="btn btn-primary-custom">Crear Servicio</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-user-plus fa-3x text-secondary mb-3"></i>
+                        <h5 class="card-title">Nuevo Profesional</h5>
+                        <p class="card-text">Agregar profesional</p>
+                        <a th:href="@{/profesionales/nuevo}" class="btn btn-primary-custom">Crear Profesional</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-users fa-3x text-dark mb-3"></i>
+                        <h5 class="card-title">Usuarios</h5>
+                        <p class="card-text">Gestionar usuarios</p>
+                        <a th:href="@{/usuarios/lista}" class="btn btn-primary-custom">Ver Usuarios</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-home fa-3x text-muted mb-3"></i>
+                        <h5 class="card-title">Inicio</h5>
+                        <p class="card-text">Volver al inicio</p>
+                        <a th:href="@{/}" class="btn btn-primary-custom">Página Principal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información rápida -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Resumen del Sistema</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-md-3">
+                                <h3 class="text-primary" th:text="${citasHoy != null ? citasHoy : '0'}">0</h3>
+                                <p class="text-muted">Citas Hoy</p>
+                            </div>
+                            <div class="col-md-3">
+                                <h3 class="text-success" th:text="${citasCompletadas != null ? citasCompletadas : '0'}">0</h3>
+                                <p class="text-muted">Completadas</p>
+                            </div>
+                            <div class="col-md-3">
+                                <h3 class="text-warning" th:text="${totalServicios != null ? totalServicios : '0'}">0</h3>
+                                <p class="text-muted">Servicios</p>
+                            </div>
+                            <div class="col-md-3">
+                                <h3 class="text-info" th:text="${totalProfesionales != null ? totalProfesionales : '0'}">0</h3>
+                                <p class="text-muted">Profesionales</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
