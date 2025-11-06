@@ -1,0 +1,11 @@
+:root{--brand:#0d6efd;--brand-2:#6f42c1}
+.navbar-brand{letter-spacing:.2px}
+.card{border-radius: .75rem}
+.table thead th{background:#f8f9fa}
+.btn-brand{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border:0}
+.btn-brand:hover{opacity:.95}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin:1rem 0}
+.page-header .title{margin:0}
+.form-section{max-width:720px;margin:0 auto}
+.badge-soft{background: #eef2ff; color:#4f46e5}
+.alert{border:0}

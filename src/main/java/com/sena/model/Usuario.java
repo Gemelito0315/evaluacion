@@ -20,12 +20,16 @@ public class Usuario {
     @Column(nullable = false, length = 255)
     private String password;
     
+    @Column(name = "rol", length = 50, nullable = false)
+    private String rol;
+
     @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro;
     
     // Constructor por defecto
     public Usuario() {
         this.fechaRegistro = LocalDateTime.now();
+        this.rol = "ROLE_USER";
     }
     
     // ✅ AGREGAR Constructor con parámetros
@@ -49,6 +53,9 @@ public class Usuario {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
     
+    public String getRol() { return rol; }
+    public void setRol(String rol) { this.rol = rol; }
+
     public LocalDateTime getFechaRegistro() { return fechaRegistro; }
     public void setFechaRegistro(LocalDateTime fechaRegistro) { this.fechaRegistro = fechaRegistro; }
 }

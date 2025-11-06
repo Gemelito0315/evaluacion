@@ -4,6 +4,7 @@ import com.sena.model.Usuario;
 import com.sena.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +14,15 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
     
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
     // Método para el REGISTRO
     public Usuario guardarUsuario(Usuario usuario) {
-        // Verificar si el email ya existe
         if (existeEmail(usuario.getEmail())) {
             throw new RuntimeException("El email ya está registrado");
         }
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioRepository.save(usuario);
     }
     
@@ -33,8 +37,7 @@ public class UsuarioService {
         
         if (usuarioOpt.isPresent()) {
             Usuario usuario = usuarioOpt.get();
-            // Verificar contraseña
-            if (password.equals(usuario.getPassword())) {
+            if (passwordEncoder.matches(password, usuario.getPassword())) {
                 return usuario;
             }
         }
