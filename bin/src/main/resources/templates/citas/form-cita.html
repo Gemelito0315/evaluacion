@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(${titulo}!=null? ${titulo} : 'Cita · Tutorías & Coaching')}"></head>
+<body class="bg-light">
+  <div th:replace="~{fragments/common :: navbar('citas')}"></div>
+  <div th:replace="~{fragments/common :: flash}"></div>
+
+  <main class="container py-4">
+    <div class="page-header">
+      <h3 class="title mb-0"><i class="fa-solid fa-calendar-check me-2 text-primary"></i><span th:text="${titulo}">Cita</span></h3>
+      <a class="btn btn-secondary" th:href="@{/citas/lista}"><i class="fa-solid fa-arrow-left"></i> Volver</a>
+    </div>
+
+    <section class="card p-4 shadow-sm form-section">
+      <form th:action="@{/citas/guardar}" th:object="${cita}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="fechaHora" class="form-label">Fecha y hora</label>
+            <input id="fechaHora" type="datetime-local" class="form-control"
+                   th:value="${cita.fechaHora != null ? #temporals.format(cita.fechaHora, 'yyyy-MM-dd''T''HH:mm') : ''}" required/>
+            <input type="hidden" th:field="*{fechaHora}"/>
+            <div class="form-text">Selecciona la fecha y hora de la sesión.</div>
+          </div>
+          <div class="col-md-6">
+            <label for="estado" class="form-label">Estado</label>
+            <input id="estado" class="form-control" th:field="*{estado}" maxlength="255" placeholder="PENDIENTE"/>
+          </div>
+        </div>
+
+        <div class="row g-3 mt-1">
+          <div class="col-md-4">
+            <label for="usuarioSel" class="form-label">Usuario</label>
+            <select id="usuarioSel" class="form-select" th:field="*{usuario.id}">
+              <option th:each="u : ${usuarios}" th:value="${u.id}" th:text="${u.nombre + ' (' + u.email + ')'}"></option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="servicioSel" class="form-label">Servicio</label>
+            <select id="servicioSel" class="form-select" th:field="*{servicio.id}">
+              <option th:each="s : ${servicios}" th:value="${s.id}" th:text="${s.nombre}"></option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="profesionalSel" class="form-label">Profesional</label>
+            <select id="profesionalSel" class="form-select" th:field="*{profesional.id}">
+              <option th:each="p : ${profesionales}" th:value="${p.id}" th:text="${p.especialidad + ' - ' + (p.usuario != null ? p.usuario.nombre : '')}"></option>
+            </select>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+          <button class="btn btn-brand" type="submit"><i class="fa-solid fa-floppy-disk me-1"></i>Guardar</button>
+          <a class="btn btn-outline-secondary" th:href="@{/citas/lista}">Cancelar</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <div th:replace="~{fragments/common :: footer}"></div>
+
+  <script>
+    const dt = document.getElementById('fechaHora');
+    if (dt) {
+      dt.addEventListener('change', () => {
+        const hidden = document.querySelector('input[type=hidden][name$=fechaHora]');
+        if (hidden) hidden.value = dt.value ? dt.value + ':00' : '';
+      });
+    }
+  </script>
+</body>
+</html>

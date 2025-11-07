@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -86,5 +88,53 @@ public class ProfesionalController {
             redirectAttributes.addFlashAttribute("tipoMensaje", "error");
         }
         return "redirect:/profesionales/lista";
+    }
+
+    @GetMapping("/api")
+    @ResponseBody
+    public ResponseEntity<List<Profesional>> apiListarProfesionales() {
+        return ResponseEntity.ok(profesionalService.obtenerTodosProfesionales());
+    }
+
+    @GetMapping("/api/{id}")
+    @ResponseBody
+    public ResponseEntity<?> apiObtenerProfesional(@PathVariable Long id) {
+        return profesionalService.obtenerProfesionalPorId(id)
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profesional no encontrado"));
+    }
+
+    @PostMapping("/api")
+    @ResponseBody
+    public ResponseEntity<?> apiCrearProfesional(@RequestBody Profesional profesional) {
+        try {
+            Profesional creado = profesionalService.guardarProfesional(profesional);
+            return ResponseEntity.status(HttpStatus.CREATED).body(creado);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al crear el profesional");
+        }
+    }
+
+    @PutMapping("/api/{id}")
+    @ResponseBody
+    public ResponseEntity<?> apiActualizarProfesional(@PathVariable Long id, @RequestBody Profesional profesional) {
+        return profesionalService.obtenerProfesionalPorId(id)
+                .<ResponseEntity<?>>map(actual -> {
+                    profesional.setId(id);
+                    Profesional actualizado = profesionalService.guardarProfesional(profesional);
+                    return ResponseEntity.ok(actualizado);
+                })
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profesional no encontrado"));
+    }
+
+    @DeleteMapping("/api/{id}")
+    @ResponseBody
+    public ResponseEntity<?> apiEliminarProfesional(@PathVariable Long id) {
+        try {
+            profesionalService.eliminarProfesional(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profesional no encontrado");
+        }
     }
 }

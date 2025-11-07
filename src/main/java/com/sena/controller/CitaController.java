@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -117,5 +119,59 @@ public class CitaController {
             redirectAttributes.addFlashAttribute("tipoMensaje", "error");
         }
         return "redirect:/citas/lista";
+    }
+
+    @GetMapping("/api")
+    @ResponseBody
+    public ResponseEntity<List<Cita>> apiListarCitas() {
+        return ResponseEntity.ok(citaService.obtenerTodasCitas());
+    }
+
+    @GetMapping("/api/{id}")
+    @ResponseBody
+    public ResponseEntity<?> apiObtenerCita(@PathVariable Long id) {
+        return citaService.obtenerCitaPorId(id)
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cita no encontrada"));
+    }
+
+    @PostMapping("/api")
+    @ResponseBody
+    public ResponseEntity<?> apiCrearCita(@RequestBody Cita cita) {
+        try {
+            Cita creada = citaService.guardarCita(cita);
+            return ResponseEntity.status(HttpStatus.CREATED).body(creada);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al crear la cita");
+        }
+    }
+
+    @PutMapping("/api/{id}")
+    @ResponseBody
+    public ResponseEntity<?> apiActualizarCita(@PathVariable Long id, @RequestBody Cita cita) {
+        return citaService.obtenerCitaPorId(id)
+                .<ResponseEntity<?>>map(actual -> {
+                    cita.setId(id);
+                    Cita actualizada = citaService.guardarCita(cita);
+                    return ResponseEntity.ok(actualizada);
+                })
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cita no encontrada"));
+    }
+
+    @DeleteMapping("/api/{id}")
+    @ResponseBody
+    public ResponseEntity<?> apiEliminarCita(@PathVariable Long id) {
+        try {
+            citaService.eliminarCita(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cita no encontrada");
+        }
+    }
+
+    @GetMapping("/api/estado/{estado}")
+    @ResponseBody
+    public ResponseEntity<List<Cita>> apiListarPorEstado(@PathVariable String estado) {
+        return ResponseEntity.ok(citaService.obtenerCitasPorEstado(estado));
     }
 }

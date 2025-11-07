@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title th:text="${title}">Tutorías & Coaching</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link th:href="@{/assets/app.css}" rel="stylesheet" />
+</head>
+<body>
+  <header th:fragment="navbar(active)">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+      <div class="container">
+        <a class="navbar-brand fw-bold" th:href="@{/}">
+          <i class="fa-solid fa-graduation-cap me-2"></i>Tutorías & Coaching
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="mainNav" class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" th:classappend="${active}=='citas'?' active'" th:href="@{/citas}"><i class="fa-solid fa-calendar-check me-1"></i>Citas</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${active}=='servicios'?' active'" th:href="@{/servicios/lista}"><i class="fa-solid fa-book-open me-1"></i>Servicios</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${active}=='profesionales'?' active'" th:href="@{/profesionales/lista}"><i class="fa-solid fa-user-tie me-1"></i>Profesionales</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${active}=='usuarios'?' active'" th:href="@{/usuarios/lista}"><i class="fa-solid fa-users me-1"></i>Usuarios</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket me-1"></i>Salir</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div th:fragment="flash">
+    <div class="container mt-3" th:if="${mensaje}">
+      <div th:classappend="${tipoMensaje}=='success'?' alert-success':(${tipoMensaje}=='danger'?' alert-danger':(${tipoMensaje}=='error'?' alert-danger':' alert-info'))"
+           class="alert alert-dismissible fade show shadow-sm" role="alert">
+        <i class="fa-solid fa-circle-info me-2"></i><span th:text="${mensaje}">Mensaje</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <footer th:fragment="footer">
+    <div class="mt-5 py-4 bg-light border-top">
+      <div class="container text-center text-muted small">
+        <i class="fa-regular fa-copyright"></i>
+        <span> Tutorías & Coaching Académico · Calidad educativa personalizada</span>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </footer>
+</body>
+</html>
